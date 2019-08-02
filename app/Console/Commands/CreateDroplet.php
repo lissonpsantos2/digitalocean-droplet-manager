@@ -79,7 +79,25 @@ class CreateDroplet extends Command
 
         $droplet_manager = DigitalOcean::droplet();
 
-        $this->_createDroplets($droplet_manager, $default_region, $desired_image_id);
+        $max_tries = 3;
+
+        for ($i = 0; $i < $max_tries; $i++) {
+            try {
+                $this->_createDroplets(
+                    $droplet_manager,
+                    $default_region,
+                    $desired_image_id,
+                    $default_tag
+                );
+                break;
+            } catch (Exception $e) {
+
+            }
+        }
+
+        if ($i == $max_tries) {
+            // Notificar adm
+        }
     }
 
     /**
@@ -87,12 +105,12 @@ class CreateDroplet extends Command
      *
      * @return void
      */
-    private function _createDroplets($droplet_manager, $default_region, $image_id)
+    private function _createDroplets($droplet_manager, $default_region, $image_id, $tag)
     {
         $total_count = (int) $this->argument('total_count');
         $droplet_name = $this->argument('droplet_name');
         $droplet_size = $this->argument('droplet_size');
-        // $cloud_config = file_get_contents(storage_path('docs/cloud-config.yaml'));
+        $cloud_config = file_get_contents(storage_path('docs/cloud-config.yaml'));
         $droplet_names = collect();
 
         for ($i = 0; $i < $total_count; $i++) {
@@ -111,11 +129,11 @@ class CreateDroplet extends Command
                 false,
                 true,
                 [],
-                '',
+                $cloud_config,
                 true,
                 [],
                 [
-                    'pedeai-app',
+                    $tag,
                 ]
             );
     }
