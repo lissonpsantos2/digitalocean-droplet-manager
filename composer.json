@@ -6,6 +6,9 @@
     "type": "project",
     "require": {
         "php": ">=7.1.3",
+        "graham-campbell/digitalocean": "^5.2",
+        "guzzlehttp/guzzle": "^6.3",
+        "irazasyed/larasupport": "~1.0",
         "laravel/lumen-framework": "5.8.*"
     },
     "require-dev": {
