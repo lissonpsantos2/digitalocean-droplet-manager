@@ -80,6 +80,7 @@ class CreateDroplet extends Command
         $droplet_manager = DigitalOcean::droplet();
 
         $max_tries = 3;
+        $error_messages = [];
 
         for ($i = 0; $i < $max_tries; $i++) {
             try {
@@ -91,12 +92,12 @@ class CreateDroplet extends Command
                 );
                 break;
             } catch (Exception $e) {
-
+                $error_messages[] = $e->getMessage();
             }
         }
 
         if ($i == $max_tries) {
-            // Notificar adm
+            // ADD your notification here
         }
     }
 

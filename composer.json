@@ -9,7 +9,8 @@
         "graham-campbell/digitalocean": "^5.2",
         "guzzlehttp/guzzle": "^6.3",
         "irazasyed/larasupport": "~1.0",
-        "laravel/lumen-framework": "5.8.*"
+        "laravel/lumen-framework": "5.8.*",
+        "laravel/slack-notification-channel": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.4",
