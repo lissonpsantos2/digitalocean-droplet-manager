@@ -54,7 +54,6 @@ class DeleteDroplet extends Command
 
         foreach ($droplets as $key => $droplet) {
             if (!in_array($droplet->name, $this->protected_droplets) && preg_match('/^' . $name_pattern . $droplet_size . '-[0-9]{5}$/', $droplet->name)) {
-                dump($droplet->name);
                 $droplet_manager->delete($droplet->id);
             }
         }
