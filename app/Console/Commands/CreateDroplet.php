@@ -75,8 +75,6 @@ class CreateDroplet extends Command
 
         $desired_image_id = $desired_images->first()->id;
 
-        dd($droplet_image_name);
-
         $droplet_manager = DigitalOcean::droplet();
 
         $max_tries = 3;

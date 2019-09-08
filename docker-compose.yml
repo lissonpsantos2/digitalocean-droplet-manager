@@ -1,0 +1,10 @@
+version: '3.3'
+services:
+  app:
+    image: lissonpsantos2/ubuntu-phps:latest
+    container_name: do_droplet_manager
+    volumes:
+      - ./:/home/project-folder
+    command: bash -c "selectphp 7.2 && apachelinker /home/project-folder/public && tail -f /tmp/dev.log"
+    ports:
+      - 8000:80
