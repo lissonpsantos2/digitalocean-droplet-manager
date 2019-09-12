@@ -24,6 +24,18 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        //
+        $jsonString = file_get_contents(base_path('schedules.json'));
+
+        $schedule_data = json_decode($jsonString, true);
+
+        if (!count($schedule_data)) {
+            return;
+        }
+
+        foreach ($schedule_data as $key => $single_schedule) {
+            $schedule
+                ->command($single_schedule['command'])
+                ->cron($single_schedule['cron']);
+        }
     }
 }

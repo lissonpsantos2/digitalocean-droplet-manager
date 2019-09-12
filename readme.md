@@ -13,8 +13,24 @@ First of all you must follow the lumen docs for the application installation, af
 - DO_DEFAULT_REGION={YOUR DIGITAL OCEAN REGION}
 - DO_DROPLET_DEFAULT_TAG={YOUR DIGITAL OCEAN DEFAULT TAG NAME}
 
+Second, you can make a copy of the ```schedules.json.example``` to ```schedules.json``` and add on it your required droplet creation schedules.
 
-### 2. Register the droplet creation routines
+Third, digitalocean provides a cloud-config option when creating a droplet, you must make a copy of ```storage/docs/cloud-config.yaml.example``` to ```storage/docs/cloud-config.yaml``` and put on it all the routines that you desire to be run after que droplet instantiation
+
+
+### 2. Running the application
+
+The project provides a ```docker-compose.yml``` file, so you can execute it with a docker-compose command.
+
+After that, you have to create a cron job that will execute a get request every minute to trigger the schedule:run inside the container:
+
+```
+* * * * * curl localhost:8080/schedule >/dev/null 2>&1
+```
+
+## ARE YOU CURIOUS? :D
+
+### 1. Register the droplet creation routines
 
 The create droplet routine is based on the create droplet command as follows:
 
@@ -34,7 +50,7 @@ $schedule
   ->cron('0 12 * * *');
 ```
 
-### 3. Register the droplet delete routines
+### 2. Register the droplet delete routines
 
 The delete droplet routine is based on the following command:
 

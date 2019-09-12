@@ -1,0 +1,26 @@
+{
+  "0": {
+    "command": "create:droplet my-app- 1x 1",
+    "cron": "0 23 * * *"
+  },
+  "1": {
+    "command": "delete:droplet my-app- 1x",
+    "cron": "0 10 * * *"
+  },
+  "2": {
+    "command": "create:droplet my-app- 2x 3",
+    "cron": "0 9 * * *"
+  },
+  "3": {
+    "command": "delete:droplet my-app- 2x",
+    "cron": "0 1 * * *"
+  },
+  "4": {
+    "command": "create:droplet my-app- 3x 2",
+    "cron": "0 15 * * 0,6"
+  },
+  "5": {
+    "command": "delete:droplet my-app- 3x",
+    "cron": "0 1 * * 0,6"
+  }
+}

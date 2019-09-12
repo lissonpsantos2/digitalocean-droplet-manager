@@ -11,6 +11,7 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
+Route::get('/schedule', function () {
+    $exitCode = Artisan::call('schedule:run');
+    return $exitCode;
 });
