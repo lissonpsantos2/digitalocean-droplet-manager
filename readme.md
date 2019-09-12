@@ -25,7 +25,7 @@ The project provides a ```docker-compose.yml``` file, so you can execute it with
 After that, you have to create a cron job that will execute a get request every minute to trigger the schedule:run inside the container:
 
 ```
-* * * * * curl localhost:8080/schedule >/dev/null 2>&1
+* * * * * curl localhost:8000/schedule >/dev/null 2>&1
 ```
 
 ## ARE YOU CURIOUS? :D
