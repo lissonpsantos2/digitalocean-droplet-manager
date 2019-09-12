@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/schedule', function () {
+$router->get('/schedule', function () {
     $exitCode = Artisan::call('schedule:run');
     return $exitCode;
 });
