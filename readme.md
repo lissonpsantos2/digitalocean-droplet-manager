@@ -4,6 +4,12 @@ This project was made using the [Lumen PHP Framework](https://lumen.laravel.com/
 
 ## HOW-TOs
 
+### Panel requirements
+
+Before trying to use this application, you have to be sure that you have a load balancer on digitalocean that is associated to an specific tag.
+
+You must also have an droplet image or snapshot that will serve as the base image for creating the new droplet.
+
 ### 1. Configure the application
 
 First of all you must follow the lumen docs for the application installation, after finishing this step you can add your custom env vars on .env file:
