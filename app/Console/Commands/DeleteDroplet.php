@@ -50,11 +50,13 @@ class DeleteDroplet extends Command
         $name_pattern = $this->argument('droplet_name');
         $droplet_size = $this->argument('droplet_size');
 
-        $droplets = $droplet_manager->getAll();
-
+        $droplets = $droplet_manager->getAll(200, 1, env('DO_DROPLET_DEFAULT_TAG'));
+        
         foreach ($droplets as $key => $droplet) {
             if (!in_array($droplet->name, $this->protected_droplets) && preg_match('/^' . $name_pattern . $droplet_size . '-[0-9]{5}$/', $droplet->name)) {
-                $droplet_manager->delete($droplet->id);
+                $droplet_count = $droplet_manager->getAll(200, 1, env('DO_DROPLET_DEFAULT_TAG'))->count();
+                if ($droplet_count > 1)
+                    $droplet_manager->delete($droplet->id);
             }
         }
     }
