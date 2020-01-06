@@ -11,7 +11,7 @@ class CreateDroplet extends Command
      *
      * @var string
      */
-    protected $signature = 'create:droplet {droplet_name} {droplet_size} {total_count}';
+    protected $signature = 'create:droplet {droplet_name} {droplet_size} {total_count} {--image=} {--tag=}';
 
     /**
      * The console command description.
@@ -50,9 +50,9 @@ class CreateDroplet extends Command
      */
     public function handle()
     {
-        $droplet_image_name = env('DO_DEFAULT_IMAGE');
+        $droplet_image_name = $this->option('image') ? $this->option('image') : env('DO_DEFAULT_IMAGE');
+        $default_tag = $this->option('tag') ? $this->option('tag') : env('DO_DROPLET_DEFAULT_TAG');
         $default_region = env('DO_DEFAULT_REGION');
-        $default_tag = env('DO_DROPLET_DEFAULT_TAG');
 
         if (!$droplet_image_name) {
             throw new Exception("DO_DEFAULT_IMAGE env variable is not set!");
