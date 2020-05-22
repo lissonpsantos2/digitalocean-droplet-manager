@@ -66,7 +66,7 @@ class CreateDroplet extends Command
             throw new Exception("DO_DROPLET_DEFAULT_TAG env variable is not set!");
         }
 
-        $desired_images = collect(DigitalOcean::image()->getAll())
+        $desired_images = collect(DigitalOcean::image()->getAll(['private' => true]))
             ->where('name', $droplet_image_name);
 
         if (!$desired_images->count()) {
@@ -95,7 +95,7 @@ class CreateDroplet extends Command
         }
 
         if ($i == $max_tries) {
-            // ADD your notification here
+            throw new Exception('Something went wrong, The scheduled servers could not be created!');
         }
     }
 
@@ -104,8 +104,12 @@ class CreateDroplet extends Command
      *
      * @return void
      */
-    private function _createDroplets($droplet_manager, $default_region, $image_id, $tag)
-    {
+    private function _createDroplets(
+        $droplet_manager,
+        $default_region,
+        $image_id,
+        $tag
+    ) {
         $total_count = (int) $this->argument('total_count');
         $droplet_name = $this->argument('droplet_name');
         $droplet_size = $this->argument('droplet_size');
@@ -118,11 +122,15 @@ class CreateDroplet extends Command
             $droplet_names->push($name);
         }
 
+        if (isset($this->droplet_sizes[$droplet_size])) {
+            $droplet_size = $this->droplet_sizes[$droplet_size];
+        }
+
         $droplet_manager
             ->create(
                 $droplet_names->toArray(),
                 $default_region,
-                $this->droplet_sizes[$droplet_size],
+                $droplet_size,
                 $image_id,
                 false,
                 false,

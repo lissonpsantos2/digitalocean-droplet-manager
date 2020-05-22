@@ -3,6 +3,7 @@ services:
   app:
     image: lissonpsantos2/ubuntu-phps:latest
     container_name: do_droplet_manager
+    restart: always
     volumes:
       - ./:/home/project-folder
     command: bash -c "selectphp 7.2 && apachelinker /home/project-folder/public && tail -f /tmp/dev.log"

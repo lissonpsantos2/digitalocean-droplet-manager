@@ -26,7 +26,13 @@ class DeleteDroplet extends Command
      * @var array
      */
     protected $protected_droplets = [
-        // ADD HERE YOUR PROTECTED DROPLETS
+        'umbutech-prod-db',
+        'umbutech-util',
+        'umbutech-common',
+        'umbutech-util-db',
+        'umbutech-test',
+        'umbutech-db-test',
+        'umbutech-util',
     ];
 
     /**
@@ -49,13 +55,27 @@ class DeleteDroplet extends Command
         $droplet_manager = DigitalOcean::droplet();
         $name_pattern = $this->argument('droplet_name');
         $droplet_size = $this->argument('droplet_size');
+        $droplets_name_size_match_ids = [];
+        $droplets_name_match_ids = [];
 
         $droplets = $droplet_manager->getAll();
 
+
         foreach ($droplets as $key => $droplet) {
             if (!in_array($droplet->name, $this->protected_droplets) && preg_match('/^' . $name_pattern . $droplet_size . '-[0-9]{5}$/', $droplet->name)) {
-                $droplet_manager->delete($droplet->id);
+                $droplets_name_size_match_ids[] = $droplet->id;
             }
+            if (!in_array($droplet->name, $this->protected_droplets) && preg_match('/^' . $name_pattern . '*/', $droplet->name)) {
+                $droplets_name_match_ids[] = $droplet->id;
+            }
+        }
+
+        if (env('DO_VERIFY_ON_DROPLET_DELETION') && count($droplets_name_size_match_ids) == count($droplets_name_match_ids)) {
+            throw new Exception('Something went wrong, After the scheduled deletion there will be no server left!');
+        }
+
+        foreach ($droplets_name_size_match_ids as $droplet_id) {
+            $droplet_manager->delete($droplet_id);
         }
     }
 }
