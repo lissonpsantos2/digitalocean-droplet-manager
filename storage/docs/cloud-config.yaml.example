@@ -1,0 +1,3 @@
+#cloud-config
+runcmd:
+  - service apache2 restart
